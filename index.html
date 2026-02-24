@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rajasri R | Developer Portfolio</title>
+
+    <style>
+        /* ===== GLOBAL PAGE GRADIENT ANIMATION ===== */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Consolas", monospace;
+            color: #e6e6e6;
+            background: linear-gradient(120deg, #00111a, #012b36, #003a45, #001c28);
+            background-size: 300% 300%;
+            animation: bgFlow 18s ease infinite;
+            overflow-x: hidden;
+        }
+
+        @keyframes bgFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== FLOATING NEON PARTICLES ===== */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: cyan;
+            opacity: 0.6;
+            animation: floatUp 12s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: .6; }
+            100% { transform: translateY(-1800px); opacity: 0; }
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 15px 40px;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+            animation: navbarDown 1s ease-out;
+        }
+
+        @keyframes navbarDown {
+            from { transform: translateY(-80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .nav-brand {
+            color: cyan;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 10px cyan;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #e6e6e6;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: cyan;
+            text-shadow: 0 0 10px cyan;
+        }
+
+        /* ===== CODE EDITOR WINDOW ===== */
+        .window {
+            width: 90%;
+            max-width: 900px;
+            margin: 120px auto 60px;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(0,255,255,0.2);
+            box-shadow: 0 0 20px rgba(0,255,255,0.2);
+            position: relative;
+        }
+
+        /* Animated Border */
+        .window::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 2px;
+            background: linear-gradient(120deg, cyan, purple, blue, cyan);
+            background-size: 300% 300%;
+            animation: borderSpin 6s linear infinite;
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        @keyframes borderSpin {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+
+        .title-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 12px;
+            background: #0f0f0f;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .red { background: #ff5f57; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #28c840; }
+
+        .title {
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.8;
+        }
+
+        /* ===== TERMINAL ===== */
+        .terminal {
+            padding: 20px;
+            min-height: 140px;
+            color: #00ffbf;
+            font-size: 18px;
+        }
+
+        .cmd { color: #00ff9f; }
+
+        /* ===== SECTIONS ===== */
+        section {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+            transform: translateY(40px);
+            opacity: 0;
+            transition: 1s ease all;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            background: linear-gradient(90deg, cyan, purple, blue);
+            -webkit-background-clip: text;
+            color: transparent;
+            font-size: 28px;
+            text-shadow: 0 0 8px rgba(0,255,255,0.4);
+            padding-left: 5px;
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 15px;
+        }
+
+        .skills-grid span {
+            padding: 12px;
+            border: 1px solid cyan;
+            text-align: center;
+            border-radius: 6px;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(0,255,255,0.15);
+        }
+
+        .skills-grid span:hover {
+            background: cyan;
+            color: black;
+            box-shadow: 0 0 20px cyan;
+            transform: translateY(-5px);
+        }
+
+        /* ===== PROJECTS ===== */
+        .project-card {
+            padding: 20px;
+            margin-top: 20px;
+            background: rgba(0, 25, 35, 0.5);
+            border: 1px solid cyan;
+            border-radius: 10px;
+            backdrop-filter: blur(4px);
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px cyan;
+        }
+
+        a {
+            color: cyan;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-shadow: 0 0 10px cyan;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Neon Particles -->
+    <script>
+        for (let i = 0; i < 60; i++) {
+            let p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDuration = 5 + Math.random() * 7 + 's';
+            document.body.appendChild(p);
+        }
+    </script>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-brand">Rajasri R</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- CODE EDITOR -->
+    <div class="window">
+        <div class="title-bar">
+            <span class="dot red"></span>
+            <span class="dot yellow"></span>
+            <span class="dot green"></span>
+            <p class="title">portfolio/rajasri.js</p>
+        </div>
+
+        <div class="terminal">
+            <span class="cmd">> </span><span id="typed"></span>
+        </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2>// About Me</h2>
+        <p>A motivated and detail-oriented undergraduate student with strong programming and problem-solving skills.</p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <h2>// Skills</h2>
+        <div class="skills-grid">
+            <span>Java</span>
+            <span>Python</span>
+            <span>SQL</span>
+            <span>C</span>
+            <span>HTML</span>
+            <span>CSS</span>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2>// Projects</h2>
+
+        <div class="project-card">
+            <h3>Voice Controlled Smart Home System</h3>
+            <p>Controls home appliances using voice commands.</p>
+            <b>Tech Stack:</b> Java, IoT
+        </div>
+
+        <div class="project-card">
+            <h3>Municipality Job Portal System</h3>
+            <p>Connects job seekers with local government job listings.</p>
+            <b>Tech Stack:</b> HTML, CSS, Java, SQL
+        </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+        <h2>// Education</h2>
+        <p><b>B.E CSE</b> – Panimalar Engineering College (CGPA: 8.41)</p>
+        <p><b>HSC</b> – Sathya Saai Matric Hr Sec School</p>
+    </section>
+
+    <!-- INTERNSHIPS -->
+    <section id="internships">
+        <h2>// Internships</h2>
+        <p><b>Robo Waves</b> – Frontend Development (1 Month)</p>
+        <p><b>InternPe</b> – Python Intern (1 Month)</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2>// Contact</h2>
+        <p>Email: <a href="mailto:rajasriramalingam0606@gmail.com">rajasriramalingam0606@gmail.com</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/rajasri-ramalingam-0888172a0/">My Profile</a></p>
+        <p>HackerRank: <a href="https://www.hackerrank.com/profile/rajasriramaling1">HackerRank</a></p>
+    </section>
+
+    <!-- JS: Typing Effect + Scroll Reveal -->
+    <script>
+        /* Typing Effect */
+        const text = "Hello, I'm Rajasri — Software Developer...";
+        let i = 0;
+
+        function typing() {
+            if (i < text.length) {
+                document.getElementById("typed").textContent += text.charAt(i);
+                i++;
+                setTimeout(typing, 50);
+            }
+        }
+        typing();
+
+        /* Scroll Reveal */
+        const sections = document.querySelectorAll("section");
+
+        function reveal() {
+            sections.forEach(sec => {
+                if (sec.getBoundingClientRect().top < window.innerHeight - 100) {
+                    sec.classList.add("visible");
+                }
+            });
+        }
+
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+
+</body>
+</html>
